@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import java.time.Duration;
 
 public class DriverSetup {
-    private static String browser_name = System.getProperty("browser", "Edge");
+    private static String browser_name = System.getProperty("browser", "Chrome");
     private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new ThreadLocal<>();
 
     public static void setDriver(WebDriver driver){
