@@ -18,4 +18,8 @@ public class TestHomePage extends DriverSetup {
         getDriver().get(homePage.url);
         Assert.assertEquals(homePage.getLoadedPageTitle(), homePage.title);
     }
+//    @Test
+//    public void testAction(){
+//        homePage.clickOnElement(homePage.author_option);
+//    }
 }
