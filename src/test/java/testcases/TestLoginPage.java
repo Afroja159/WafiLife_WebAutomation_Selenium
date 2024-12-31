@@ -10,10 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.AuthorPage;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.MyAccountPage;
+import pages.*;
 import utilities.DriverSetup;
 
 import java.time.Duration;
@@ -24,6 +21,7 @@ public class TestLoginPage extends DriverSetup {
     MyAccountPage myAccountPage = new MyAccountPage();
     HomePage homePage = new HomePage();
     AuthorPage authorPage = new AuthorPage();
+    CheckoutPage checkoutPage = new CheckoutPage();
 
     @BeforeMethod
     public void setup_class(){
@@ -68,19 +66,34 @@ public class TestLoginPage extends DriverSetup {
 
         try {
             // Always re-locate the dropdown before interacting
-            WebElement areaDropdown = waitForDropdown.until(ExpectedConditions.presenceOfElementLocated(authorPage.area_dropdown));
+            WebElement areaDropdown = waitForDropdown.until(ExpectedConditions.presenceOfElementLocated(checkoutPage.area_dropdown));
 
             // Select the desired option by visible text
             Select select = new Select(areaDropdown);
             select.selectByVisibleText("আদাবর");
 
         } catch (StaleElementReferenceException e) {
-            WebElement areaDropdown = wait.until(ExpectedConditions.presenceOfElementLocated(authorPage.area_dropdown));
+            WebElement areaDropdown = wait.until(ExpectedConditions.presenceOfElementLocated(checkoutPage.area_dropdown));
             Select select = new Select(areaDropdown);
             select.selectByVisibleText("আদাবর");
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
+
+        // write on address field
+        checkoutPage.writeOnElement(checkoutPage.address_field, "Dhaka");
+        // select checkbox
+        checkoutPage.clickOnElement(checkoutPage.ship_to_office_checkbox);
+        // select cod radio button
+        checkoutPage.clickOnElement(checkoutPage.cod_selection);
+        // Scroll up by a specific amount
+        Actions actionForScrollUp = new Actions(getDriver());
+        actionForScrollUp.scrollByAmount(0, -900).build().perform();
+
+        // Interact with my account button after scrolling up
+        checkoutPage.clickOnElement(checkoutPage.my_account_btn);
+        // Interact with logout button after navigating to my account page
+        myAccountPage.clickOnElement(myAccountPage.logout_btn);
     }
 }
