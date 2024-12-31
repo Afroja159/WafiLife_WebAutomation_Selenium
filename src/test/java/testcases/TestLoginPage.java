@@ -1,8 +1,10 @@
 package testcases;
 
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -33,7 +35,7 @@ public class TestLoginPage extends DriverSetup {
         loginPage.addScreenshot("After test");
     }
     @Test
-    public void testLoginWithValidCredentials(){
+    public void testLoginWithValidCredentials() {
         // Login steps
         loginPage.writeOnElement(loginPage.email_input_box, "arb@gmail.com");
         loginPage.writeOnElement(loginPage.password_input_box, "123456");
@@ -51,8 +53,6 @@ public class TestLoginPage extends DriverSetup {
         authorPage.clickOnElement(authorPage.select_random_author);
         //authorPage.clickOnElement(authorPage.select_checkbox);
         authorPage.clickOnElement(authorPage.select_book);
-//        authorPage.clickOnElement(authorPage.select_dropdown);
-//        authorPage.clickOnElement(authorPage.select_dropdown_option);
         authorPage.clickOnElement(authorPage.order_btn);
         // Wait for the "অর্ডার সম্পন্ন করুন" button to become visible and clickable
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
@@ -63,5 +63,24 @@ public class TestLoginPage extends DriverSetup {
         // Click on the button
         completeOrderButton.click();
 
+        // Wait for the dropdown to be visible
+        WebDriverWait waitForDropdown = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        try {
+            // Always re-locate the dropdown before interacting
+            WebElement areaDropdown = waitForDropdown.until(ExpectedConditions.presenceOfElementLocated(authorPage.area_dropdown));
+
+            // Select the desired option by visible text
+            Select select = new Select(areaDropdown);
+            select.selectByVisibleText("আদাবর");
+
+        } catch (StaleElementReferenceException e) {
+            WebElement areaDropdown = wait.until(ExpectedConditions.presenceOfElementLocated(authorPage.area_dropdown));
+            Select select = new Select(areaDropdown);
+            select.selectByVisibleText("আদাবর");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
