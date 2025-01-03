@@ -13,6 +13,10 @@ public class AuthorPage extends BasePage{
 //    public By select_dropdown_option = By.xpath("(//select[@id='pa_binding'])[1]");
     public By order_btn = By.xpath("//div[@class='body-wrapper']//button[2]");
     public By complete_order_btn = By.xpath("//a[contains(@class, 'checkout-link') and span[text()='অর্ডার সম্পন্ন করুন']]");
-
+    public void navigateToAuthorPage(){
+        HomePage homePage = new HomePage();
+        homePage.loadHomePage();
+        homePage.clickOnElement(homePage.author_option);
+    }
 
 }

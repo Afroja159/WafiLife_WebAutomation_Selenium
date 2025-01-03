@@ -32,6 +32,32 @@ public class TestLoginPage extends DriverSetup {
     public void addTestScreenshot(){
         loginPage.addScreenshot("After test");
     }
+
+    @Test
+    public void testLoginWithInValidCredentials() {
+        // Login steps
+        loginPage.writeOnElement(loginPage.email_input_box, "avc@gmail.com");
+        loginPage.writeOnElement(loginPage.password_input_box, "bghkji");
+        loginPage.clickOnElement(loginPage.login_btn);
+        Assert.assertTrue(loginPage.is_element_visible(loginPage.invalid_credential_msg));
+    }
+    @Test
+    public void testLoginWithInValidEmail() {
+        // Login steps
+        loginPage.writeOnElement(loginPage.email_input_box, "avc@gmail.com");
+        loginPage.writeOnElement(loginPage.password_input_box, "123456");
+        loginPage.clickOnElement(loginPage.login_btn);
+        Assert.assertTrue(loginPage.is_element_visible(loginPage.invalid_email_msg));
+    }
+
+    @Test
+    public void testLoginWithInValidPassword() {
+        // Login steps
+        loginPage.writeOnElement(loginPage.email_input_box, "arb@gmail.com");
+        loginPage.writeOnElement(loginPage.password_input_box, "fg76hj");
+        loginPage.clickOnElement(loginPage.login_btn);
+        Assert.assertTrue(loginPage.is_element_visible(loginPage.invalid_password_msg));
+    }
     @Test
     public void testLoginWithValidCredentials() {
         // Login steps
